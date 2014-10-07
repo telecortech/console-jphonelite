@@ -16,6 +16,8 @@ public interface EventListener {
 
     public void rejected();
 
+    public void transferred();
+
     public void newMessage(String message);
 
 }

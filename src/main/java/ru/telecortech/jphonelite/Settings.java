@@ -53,7 +53,8 @@ public class Settings {
     public boolean speakerMode = false;
     public int speakerThreshold = 1000;  //0-32k
     public int speakerDelay = 250;  //ms
-    public String audioCodecs = "G729,PCMU";
+//    public String audioCodecs = "G729,PCMU";
+    public String audioCodecs = "PCMU,PCMA";
     public boolean reinvite = true;  //reinvite when returned multiple codecs
     public int sampleRate = 8000;  //8000, 32000, 44100
     public int interpolation = I_LINEAR;

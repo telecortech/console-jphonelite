@@ -365,6 +365,8 @@ public class BasePhone implements SIPClientInterface, RTPInterface {
      */
 
     public void endLine(int xline) {
+        System.out.println("-----REJECTED");
+        eventListener.rejected();
         PhoneLine pl = lines[xline];
         pl.dial = "";
         pl.status = "Hungup";
@@ -644,6 +646,26 @@ public class BasePhone implements SIPClientInterface, RTPInterface {
     }
 
     /**
+     * Start or finish a call transfer.
+     */
+
+    public void transfer(String phone) {
+        if (line == -1) return;
+        PhoneLine pl = lines[line];
+        pl.dial = phone;
+        if (!pl.talking) return;
+        pl.xfer = true;
+        if (pl.dial.length() == 0) {
+            //cancel xfer
+            pl.status = "Connected";
+        } else {
+            pl.sip.refer(pl.callid, pl.dial);
+            pl.status = "XFER Requested";
+        }
+        pl.xfer = false;
+    }
+
+    /**
      * Put a call into or out of hold.
      */
 
@@ -654,6 +676,31 @@ public class BasePhone implements SIPClientInterface, RTPInterface {
         pl.hld = !pl.hld;
         pl.sip.setHold(pl.callid, pl.hld);
         pl.sip.reinvite(pl.callid);
+    }
+
+    public boolean isHold() {
+        if (line == -1) return false;
+        return lines[line].hld;
+    }
+
+    /**
+     * @deprecated не работает, если сервер остановить, то
+     * будет всё-равно будет выдавать true
+     * @return
+     */
+    @Deprecated
+    public boolean isRegistered() {
+        if (lines == null || line == -1) {
+            return false;
+        }
+        return lines[line].sip.isRegistered();
+    }
+
+    public boolean isCall() {
+        if (lines == null || line == -1) {
+            return false;
+        }
+        return lines[line].incall;
     }
 
     /**
@@ -973,8 +1020,6 @@ public class BasePhone implements SIPClientInterface, RTPInterface {
             if (pl.incall) {
                 if (pl.callid.equals(callid)) {
                     endLine(a);
-                    System.out.println("-----REJECTED");
-                    eventListener.registered();
                 }
             }
         }
@@ -1045,8 +1090,6 @@ public class BasePhone implements SIPClientInterface, RTPInterface {
             if (pl.callid.equals(callid)) {
                 endLine(a);
                 pl.status = "Hungup (" + code + ")";
-                System.out.println("-----REJECTED");
-                eventListener.rejected();
             }
         }
     }
@@ -1116,6 +1159,9 @@ public class BasePhone implements SIPClientInterface, RTPInterface {
                 return;
             }
             return;
+        }
+        if (event.equals("refer")) {
+            eventListener.transferred();
         }
         String parts[] = event.split(";");
         if (parts[0].equals("refer")) {
@@ -1346,4 +1392,5 @@ public class BasePhone implements SIPClientInterface, RTPInterface {
             sound.setVolPlay(Settings.current.volPlayHW);
         }
     }
+
 }
