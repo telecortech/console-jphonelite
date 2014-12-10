@@ -1,4 +1,5 @@
-package ru.telecortech.jphonelite; /**
+package ru.telecortech.jphonelite;
+/**
  * Keeps track of each line.
  *
  * Copyright (C) 2010-2014 Peter Quiring
@@ -17,45 +18,46 @@ package ru.telecortech.jphonelite; /**
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  */
+
 import javaforce.voip.*;
 
 public class PhoneLine {
-  public boolean unauth, auth;
-  public boolean noregister;
-  public boolean incall;   //INVITE (outbound)
-  public boolean trying;   //100 trying
-  public boolean ringing;  //180 ringing
-  public boolean ringback; //183 ringback tone
-  public boolean talking;  //200 ok
+    public boolean unauth, auth;
+    public boolean noregister;
+    public boolean incall;   //INVITE (outbound)
+    public boolean trying;   //100 trying
+    public boolean ringing;  //180 ringing
+    public boolean ringback; //183 ringback tone
+    public boolean talking;  //200 ok
 
-  public boolean srtp;
-  public SIP.Transport transport;
-  public boolean dtls;
+    public boolean srtp;
+    public SIP.Transport transport;
+    public boolean dtls;
 
-  public String user;
+    public String user;
 
-  public boolean incoming; //INVITE (inbound)
+    public boolean incoming; //INVITE (inbound)
 
-  public String dial = "", status = "";
-  public String callid = "";  //Call-ID in SIP header (not callerid)
-  public String to;  //remote number
-  public String callerid;  //TEXT name of person calling
+    public String dial = "", status = "";
+    public String callid = "";  //Call-ID in SIP header (not callerid)
+    public String to;  //remote number
+    public String callerid;  //TEXT name of person calling
 
-  public SIPClient sip;
+    public SIPClient sip;
 
-  public RTP audioRTP;
-  public SDP sdp, localsdp;
-  public Coder coder;  //selected codec [en]coder
+    public RTP audioRTP;
+    public SDP sdp, localsdp;
+    public Coder coder;  //selected codec [en]coder
 
-  public int clr = -1;
+    public int clr = -1;
 
-  public boolean xfer,hld,dnd,cnf;
+    public boolean xfer, hld, dnd, cnf;
 
-  public short samples[] = new short[160];  //used in conference mode only
+    public short samples[] = new short[160];  //used in conference mode only
 
-  //RFC 2833 - DTMF
-  public char dtmf = 'x';
-  public boolean dtmfend = false;
+    //RFC 2833 - DTMF
+    public char dtmf = 'x';
+    public boolean dtmfend = false;
 
-  public boolean msgwaiting = false;
+    public boolean msgwaiting = false;
 }
