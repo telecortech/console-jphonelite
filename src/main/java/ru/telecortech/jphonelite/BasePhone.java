@@ -60,67 +60,11 @@ public class BasePhone implements SIPClientInterface, RTPInterface {
      */
     public BasePhone(EventListener eventListener) {
         this.eventListener = eventListener;
-        //test
-        /*
-        try {
-
-            register("2001", "1111", "192.168.0.23");
-            try {
-                Thread.sleep(2000);
-            } catch (Exception e) {
-                JFLog.log(e);
-            }
-            selectLine(0);
-            try {
-                Thread.sleep(10000);
-            } catch (Exception e) {
-                JFLog.log(e);
-            }
-            call(2, "1002");
-
-        } catch (Exception e) {
-            JFLog.log(e);
-        }
-        */
-    }
-
-
-   /*Получаем сообщения от томкат
-    1 - call
-    2 - accept
-    3 - включает функцию конференции на текущей линии
-    4 - hold
-    5 - сменить линию связи
-    6 - отмена или разрыв соединения
-   * */
-
-    public void get(int val) {
-        switch (val) {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                conference();
-            case 4:
-                hold();
-                break;
-            case 5:
-
-                break;
-            case 6:
-                end();
-                break;
-            case 7:
-                register("2001", "1111", "192.168.0.14");
-                break;
-        }
     }
 
     /**
      * Registers all SIP connections.
      */
-
     public void reRegisterAll() {
         registeringAll = true;
         int idx;
@@ -518,7 +462,6 @@ public class BasePhone implements SIPClientInterface, RTPInterface {
     /**
      * Accepts an inbound call on selected line.
      */
-
     public void callAccept() {
         PhoneLine pl = lines[line];
         try {
@@ -572,6 +515,7 @@ public class BasePhone implements SIPClientInterface, RTPInterface {
             pl.incoming = false;
             pl.talking = true;
             pl.status = "Connected";
+            eventListener.accepted();
         } catch (Exception e) {
             JFLog.log(e);
             pl.sip.deny(pl.callid, "RTP_START_FAILED", 500);
