@@ -1337,4 +1337,19 @@ public class BasePhone implements SIPClientInterface, RTPInterface {
         }
     }
 
+    public void clean() {
+        for (int a = 0; a < 6; a++) {
+            PhoneLine pl = lines[a];
+            if (pl.sip != null) {
+                pl.sip.uninit();
+                pl.sip = null;
+            }
+            if (pl.audioRTP != null) {
+                pl.audioRTP.uninit();
+                pl.audioRTP = null;
+            }
+        }
+
+    }
+
 }
