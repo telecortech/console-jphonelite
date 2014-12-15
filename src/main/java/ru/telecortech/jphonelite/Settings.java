@@ -92,6 +92,12 @@ public class Settings {
     public static void loadSettings() {
         try {
             current = new Settings();
+            current.sipmin = 5060;
+            current.sipmax = 5092;
+            current.sipRange = true;
+            current.rtpRange = true;
+            current.rtpmin = 10000;
+            current.rtpmax = 11000;
             current.lines = new Line[6];
             for (int i=0;i<6;i++) {
                 current.lines[i] = new Line();
